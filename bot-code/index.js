@@ -57,18 +57,14 @@ let knownCommands = {
   }
 }
 
-let randomcolors = ['rebeccapurple', 'blue', 'rainbow', 'purple', 'orange', 'green', 'red']
+let randomcolors = ['rebeccapurple', 'blue', 'purple', 'orange', 'green', 'red']
 let randomIndex = 0
 
 setInterval(()=>{
   randomIndex = Math.floor((Math.random() * randomcolors.length))
-  if(randomcolors[randomIndex] == 'rainbow'){
-    client.action(twitchIRC, 'Random Rainbow!')
-  } else {
-    let lightColor = color(randomcolors[randomIndex])
-    let result = `${lightColor.color[0]},${lightColor.color[1]},${lightColor.color[2]}`
-    client.action(twitchIRC, `Random Color R:${lightColor.color[0]} G:${lightColor.color[1]} B:${lightColor.color[2]}!`)
-  }
+  let lightColor = color(randomcolors[randomIndex])
+  let result = `${lightColor.color[0]},${lightColor.color[1]},${lightColor.color[2]}`
+  client.action(twitchIRC, `Random Color R:${lightColor.color[0]} G:${lightColor.color[1]} B:${lightColor.color[2]}!`)
 }, 60000)
 
 // Called every time a message comes in:

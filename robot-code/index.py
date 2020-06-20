@@ -11,7 +11,6 @@ while True:
     color_queue = []
   else:
     color_queue = json.loads(color_queue)
-  print(color_queue)
   x = 0
   y = 0
   index = 0
