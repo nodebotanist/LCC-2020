@@ -37,7 +37,7 @@ let knownCommands = {
     let colorParam = params.join(' ').toLowerCase();
     let lightColor = null
     try {
-      lightColor = color(colorParam)      
+      lightColor = color(colorParam)
     } catch (error) {}
     if(lightColor){
       let result = {
@@ -63,7 +63,16 @@ let randomIndex = 0
 setInterval(()=>{
   randomIndex = Math.floor((Math.random() * randomcolors.length))
   let lightColor = color(randomcolors[randomIndex])
-  let result = `${lightColor.color[0]},${lightColor.color[1]},${lightColor.color[2]}`
+  let result = {
+    r:lightColor.red(),
+    g:lightColor.green(),
+    b:lightColor.blue()
+  }
+  db.get('colorQueue', (err, value) => {
+    let colorQueue = JSON.parse(value)
+    colorQueue.push(result)
+    db.set('colorQueue', JSON.stringify(colorQueue))
+  })
   client.action(twitchIRC, `Random Color R:${lightColor.color[0]} G:${lightColor.color[1]} B:${lightColor.color[2]}!`)
 }, 60000)
 
