@@ -46,11 +46,7 @@ let knownCommands = {
         b:lightColor.blue()
       }
       client.action(twitchIRC, `Color R:${lightColor.color[0]} G:${lightColor.color[1]} B:${lightColor.color[2]}!`)
-      db.get('colorQueue', (err, value) => {
-        let colorQueue = JSON.parse(value)
-        colorQueue.push(result)
-        db.set('colorQueue', JSON.stringify(colorQueue))
-      })
+      addColorToDB(result)
     } else {
       client.action(twitchIRC, 'Invalid color!')
     }
@@ -68,13 +64,21 @@ setInterval(()=>{
     g:lightColor.green(),
     b:lightColor.blue()
   }
-  db.get('colorQueue', (err, value) => {
-    let colorQueue = JSON.parse(value)
-    colorQueue.push(result)
-    db.set('colorQueue', JSON.stringify(colorQueue))
-  })
+  addColorToDB(result)
   client.action(twitchIRC, `Random Color R:${lightColor.color[0]} G:${lightColor.color[1]} B:${lightColor.color[2]}!`)
 }, 60000)
+
+async function addColorToDB(color) {
+  let dbField = 'colorQueue'
+  db.get(dbField, (err, value) => {
+    let colorQueue = JSON.parse(value)
+    colorQueue.push(color)
+    if(colorQueue.length > 256){
+      colorQueue = colorQueue.slice(0, 255)
+    }
+    db.set(dbField, JSON.stringify(colorQueue))
+  })
+}
 
 // Called every time a message comes in:
 function onMessageHandler (target, context, msg, self) {
