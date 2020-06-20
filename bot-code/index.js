@@ -74,7 +74,7 @@ async function addColorToDB(color) {
     let colorQueue = JSON.parse(value)
     colorQueue.push(color)
     if(colorQueue.length > 256){
-      colorQueue = colorQueue.slice(0, 255)
+      colorQueue = colorQueue.slice(1, 256)
     }
     db.set(dbField, JSON.stringify(colorQueue))
   })
