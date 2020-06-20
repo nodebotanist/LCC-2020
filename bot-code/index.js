@@ -41,9 +41,9 @@ let knownCommands = {
     } catch (error) {}
     if(lightColor){
       let result = {
-        r:lightColor.color[0],
-        g:lightColor.color[1],
-        b:lightColor.color[2]
+        r:lightColor.red(),
+        g:lightColor.green(),
+        b:lightColor.blue()
       }
       client.action(twitchIRC, `Color R:${lightColor.color[0]} G:${lightColor.color[1]} B:${lightColor.color[2]}!`)
       db.get('colorQueue', (err, value) => {
